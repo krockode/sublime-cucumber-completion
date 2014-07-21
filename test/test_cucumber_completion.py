@@ -40,3 +40,7 @@ def test_splitting_regex_by_groups():
 def test_splitting_regex_ignores_outer_braces():
     chunks = completer.create_completion_text('More (braces (arent)) groups', 'group1')
     assert 'More (braces (group1)) groups' == chunks
+
+def test_splitting_regex_non_catching_groups():
+    chunks = completer.create_completion_text('This sentence contains(?: non catched (.*)) group', 'group1')
+    assert 'This sentence contains(?: non catched (group1)) group'
