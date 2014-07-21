@@ -126,39 +126,18 @@ class CucumberFeatureAutocomplete(sublime_plugin.EventListener):
         them together
         """
         fields = fields.replace('|', '').replace('$', '$$')
-        params = [x for x in re.split(',', fields)]
+        params = [x.strip() for x in re.split(',', fields)]
         field_chunks = [re.split(' ', x)[-1] for x in params]
+        unbraced_chunks = re.split('(\([^?:][^())]*\))', completion)
         try:
-            zipped = zip_longest(
-                self.unbraced_chunks(completion),
-                field_chunks,
-                fillvalue="")
-            return "".join(map("".join, zipped))
+            for i in range(0, len(unbraced_chunks)):
+                if i%2 == 1:
+                    unbraced_chunks[i] = '('+field_chunks[(i-1)//2]+')'
+            return "".join(map("".join, unbraced_chunks))
         except:
             log.exception("failed completion: {0} fields: {1}".format(
                 completion, fields))
             return completion
-
-    def unbraced_chunks(self, txt):
-        """Split regex into list around the capturing groups
-        """
-        chunk = ''
-        depth = 0
-        for idx, char in enumerate(txt):
-            if char == '(':
-                if (txt[idx+1] != '?' and txt[idx+2] != ':'):
-                    if depth == 0:
-                        yield chunk
-                        chunk = ''
-                    depth = depth + 1
-                else:
-                    chunk = chunk + char
-            elif char == ')' and depth > 0:
-                depth = depth - 1
-            elif depth == 0:
-                chunk = chunk + char
-        yield chunk
-
 
 class CucumberCompletionResetStepFoldersCommand(sublime_plugin.WindowCommand):
     
