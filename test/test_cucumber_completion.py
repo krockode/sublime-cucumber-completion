@@ -38,7 +38,7 @@ def test_splitting_regex_by_groups():
 
 
 def test_splitting_regex_ignores_outer_braces():
-    chunks = completer.create_completion_text('More (braces (arent)) groups', 'group1')
+    chunks = completer.create_completion_text('More (braces (.*)) groups', 'group1')
     assert 'More (braces (group1)) groups' == chunks
 
 def test_splitting_regex_non_catching_groups():
