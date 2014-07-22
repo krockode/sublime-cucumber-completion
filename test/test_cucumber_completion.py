@@ -34,7 +34,7 @@ def test_splitting_regex_by_groups():
     chunks = completer.create_completion_text('Mrs (.*) is a customer', 'group1')
     assert 'Mrs (group1) is a customer' == chunks
     chunks = completer.create_completion_text('(Mr|Mrs|Ms) (.*) is a customer', 'group1, group2')
-    assert '(group1) (group2) is a customer' == chunks
+    assert '(Mr|Mrs|Ms) (group2) is a customer' == chunks
 
 
 def test_splitting_regex_ignores_outer_braces():

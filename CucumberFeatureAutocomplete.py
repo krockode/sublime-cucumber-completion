@@ -131,7 +131,7 @@ class CucumberFeatureAutocomplete(sublime_plugin.EventListener):
         unbraced_chunks = re.split('(\([^?:][^())]*\))', completion)
         try:
             for i in range(0, len(unbraced_chunks)):
-                if i%2 == 1:
+                if i%2 == 1 and not re.match(r'\([\w \|]+\)', unbraced_chunks[i]):
                     unbraced_chunks[i] = '('+field_chunks[(i-1)//2]+')'
             return "".join(map("".join, unbraced_chunks))
         except:
