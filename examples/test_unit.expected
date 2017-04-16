@@ -1,2 +1,2 @@
-var = value
-I can assert that var_a == var_b
+(var) = (value)
+I can assert that (var_a) == (var_b)
